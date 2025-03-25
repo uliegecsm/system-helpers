@@ -55,11 +55,11 @@ class TestAptInstall:
         packages = ['git', 'and', 'whatnot']
 
         with unittest.mock.patch(target = 'subprocess.check_call', side_effect = [None, None]) as mocker:
-            install.install_packages(packages = packages, update = False, upgrade = True, clean = False)
+            install.install_packages(packages = packages, update = False, upgrade = True, clean = False, args = ['--download-only'])
 
             mocker.assert_has_calls(calls = [
                 unittest.mock.call(['apt', '--yes', 'upgrade']),
-                unittest.mock.call(['apt', '--yes', '--no-install-recommends', 'install'] + packages),
+                unittest.mock.call(['apt', '--yes', '--no-install-recommends', 'install', '--download-only'] + packages),
             ])
 
     def test_list_of_requirements_files(self, requirements):
@@ -73,7 +73,7 @@ class TestAptInstall:
                 unittest.mock.call(['apt', '--yes', '--no-install-recommends', 'install'] + requirements[1]),
             ])
 
-    @unittest.mock.patch(target = 'subprocess.check_call', side_effect = [None])
+    @unittest.mock.patch(target = 'subprocess.check_call', side_effect = [None, None])
     @pytest.mark.script_launch_mode('inprocess')
     def test_install_packages_from_cli(self, mocker, script_runner : pytest_console_scripts.ScriptRunner, requirements):
         """
@@ -82,12 +82,15 @@ class TestAptInstall:
         result = script_runner.run([
             str(self.get_script()),
             'install-packages',
+            '--update',
             '--packages', 'one', 'two',
-            *list(itertools.chain.from_iterable([['--requirement', str(x)] for x in requirements[0]]))
+            *list(itertools.chain.from_iterable([['--requirement', str(x)] for x in requirements[0]])),
+            '--args', '--download-only', '--reinstall',
         ], print_result = True)
 
         assert result.returncode == 0
 
         mocker.assert_has_calls(calls = [
-            unittest.mock.call(['apt', '--yes', '--no-install-recommends', 'install', 'one', 'two'] + requirements[1]),
+            unittest.mock.call(['apt', 'update']),
+            unittest.mock.call(['apt', '--yes', '--no-install-recommends', 'install', '--download-only', '--reinstall', 'one', 'two'] + requirements[1]),
         ])

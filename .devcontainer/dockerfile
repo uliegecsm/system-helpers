@@ -1,7 +1,6 @@
 FROM python:3.10
 
 RUN --mount=target=/requirements,type=bind,source=requirements <<EOF
-
     set -ex
 
     apt update

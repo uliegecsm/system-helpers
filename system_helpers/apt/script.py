@@ -26,7 +26,6 @@ def parse_args() -> argparse.Namespace:
         help = "List of packages to install.",
         nargs = '*',
         required = False,
-        dest = 'packages',
     )
 
     parser_ip.add_argument(
@@ -35,6 +34,13 @@ def parse_args() -> argparse.Namespace:
         dest = 'requirements',
         action = 'append',
         type = pathlib.Path,
+        required = False,
+    )
+
+    parser_ip.add_argument(
+        '--args',
+        help = 'Additional arguments to \'apt install\'.',
+        nargs = argparse.REMAINDER,
         required = False,
     )
 
