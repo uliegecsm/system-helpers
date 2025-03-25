@@ -32,6 +32,7 @@ jobs:
         strategy:
             matrix:
                 version: ['3.10', '3.12']
+            fail-fast: false
         steps:
             - name: Install as package.
               run : |
@@ -41,6 +42,10 @@ jobs:
               run : |
                   apt-helpers install-packages --update --clean --upgrade --packages jq
                   jq --version
+
+                  test 0 -eq $(ls -all /var/cache/apt/archives/ | grep calc | wc -l)
+                  apt-helpers install-packages --update --packages calc --args --download-only --reinstall
+                  test 1 -le $(ls -all /var/cache/apt/archives/ | grep calc | wc -l)
 
             - name: Test 'update-alternatives' helpers CLI directly.
               run : |

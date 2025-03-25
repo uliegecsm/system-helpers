@@ -46,6 +46,7 @@ def install_packages(*,
     update : bool = False,
     upgrade : bool = False,
     clean: bool = False,
+    args : typing.Optional[typing.List[str]] = None,
 ) -> None:
     """
     Install list of packages by using `apt`.
@@ -75,10 +76,12 @@ def install_packages(*,
     if upgrade:
         subprocess.check_call(['apt', '--yes', 'upgrade'])
 
-    args = install_command(yes = True, no_install_recommends = True)
-    args += to_be_installed
+    cmd = install_command(yes = True, no_install_recommends = True)
+    if args:
+        cmd += args
+    cmd += to_be_installed
 
-    subprocess.check_call(args)
+    subprocess.check_call(cmd)
 
     if clean:
         subprocess.check_call(['apt', 'clean'])
