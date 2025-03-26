@@ -7,7 +7,7 @@ import typeguard
 
 class TestUpdateAlternatives:
     """
-    Test :py:class:`update_alternatives.helpers.update_alternatives`.
+    Test :py:func:`system_helpers.update_alternatives.alternatives.update_alternatives`.
     """
     @staticmethod
     @typeguard.typechecked

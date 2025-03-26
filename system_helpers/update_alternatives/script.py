@@ -4,8 +4,8 @@ import pathlib
 
 import typeguard
 
-from system_helpers.update_alternatives.alternatives import update_alternatives
-from system_helpers.update_alternatives.argparse     import ParseKwargs
+from system_helpers.update_alternatives.alternatives     import update_alternatives
+from system_helpers.update_alternatives.argparse_helpers import ParseKwargs
 
 @typeguard.typechecked
 def parse_args() -> argparse.Namespace:

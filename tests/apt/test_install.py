@@ -38,7 +38,7 @@ def requirements() -> typing.Generator[typing.Tuple[typing.List[pathlib.Path], t
 
 class TestAptInstall:
     """
-    Test :py:class:`apt_helpers.install.apt_install_packages`.
+    Test :py:class:`system_helpers.apt.install.install_packages`.
     """
     @staticmethod
     @typeguard.typechecked
