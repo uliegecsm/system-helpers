@@ -68,7 +68,7 @@ def install_packages(*,
     if len(to_be_installed) == 0:
         raise RuntimeError('There is no package to be installed.')
 
-    logging.info(f"Installing 'apt' packages {to_be_installed} (update={update}, upgrade={upgrade}, clean={clean})")
+    logging.info(f"Installing 'apt' packages {to_be_installed} (update={update}, upgrade={upgrade}, clean={clean}, args={args})")
 
     if update:
         subprocess.check_call(['apt', 'update'])
