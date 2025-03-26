@@ -4,6 +4,7 @@ import pathlib
 
 import typeguard
 
+from system_helpers.apt         import extract
 from system_helpers.apt.install import install_packages
 
 @typeguard.typechecked
@@ -46,12 +47,19 @@ def parse_args() -> argparse.Namespace:
 
     parser_ip.set_defaults(func = install_packages)
 
+    parser_ex = subparsers.add_parser('extract-from-package')
+
+    parser_ex.add_argument('--package', required = True, type = str)
+    parser_ex.add_argument('--files',   required = True, nargs = argparse.REMAINDER)
+
+    parser_ex.set_defaults(func = extract.extract)
+
     return parser.parse_args()
 
 @typeguard.typechecked
 def main() -> None:
 
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level = logging.INFO)
 
     args = parse_args()
 
