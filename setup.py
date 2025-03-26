@@ -1,8 +1,10 @@
 from setuptools import setup
 
+import system_helpers
+
 setup(
     name             = 'system-helpers',
-    version          = '0.1',
+    version          = system_helpers.__version__,
     license          = 'MIT',
     url              = 'https://github.com/uliegecsm/system-helpers',
     install_requires = [
