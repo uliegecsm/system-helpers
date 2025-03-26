@@ -40,7 +40,7 @@ def candidate(*, package : str) -> str:
     return urllib.parse.quote_plus(version).lower()
 
 @typeguard.typechecked
-def extract(*, package : str, files : typing.List[str], arch : str = 'amd64') -> None:
+def extract(*, package : str, files : typing.List[str], arch : str = 'amd64', clean : bool = True) -> None:
     """
     Download `.deb` for `package` and install only the specified `files`.
     """
@@ -86,6 +86,8 @@ def extract(*, package : str, files : typing.List[str], arch : str = 'amd64') ->
         logging.info(f'Extracting files with {cmd}.')
 
         subprocess.check_call(cmd, cwd = tmpdir)
+
+    if clean: install.Cleaner.run()
 
 if __name__ == '__main__':
 
