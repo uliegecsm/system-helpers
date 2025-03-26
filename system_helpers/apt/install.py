@@ -39,6 +39,14 @@ def install_command(*, yes : bool = True, no_install_recommends : bool = True) -
     cmd.append('install')
     return cmd
 
+class Cleaner:
+    @typeguard.typechecked
+    @staticmethod
+    def run() -> None:
+        logging.info("Cleaning 'apt' cache and lists.")
+        subprocess.check_call(['apt', 'clean'])
+        shutil.rmtree(pathlib.Path("/var/lib/apt/lists"))
+
 @typeguard.typechecked
 def install_packages(*,
     packages : typing.Optional[typing.List[str]] = None,
@@ -83,6 +91,4 @@ def install_packages(*,
 
     subprocess.check_call(cmd)
 
-    if clean:
-        subprocess.check_call(['apt', 'clean'])
-        shutil.rmtree(pathlib.Path("/var/lib/apt/lists"))
+    if clean: Cleaner.run()
