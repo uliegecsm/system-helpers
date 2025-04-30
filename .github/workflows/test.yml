@@ -47,6 +47,8 @@ jobs:
                   apt-helpers install-packages --update --packages calc --args --download-only --reinstall
                   test 1 -le $(ls -all /var/cache/apt/archives/ | grep calc | wc -l)
 
+                  apt-helpers clean
+
             - name: Test 'update-alternatives' helpers CLI directly.
               run : |
                   update-alternatives-helpers --help

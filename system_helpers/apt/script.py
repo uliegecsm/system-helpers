@@ -5,7 +5,7 @@ import pathlib
 import typeguard
 
 from system_helpers.apt         import extract
-from system_helpers.apt.install import install_packages
+from system_helpers.apt.install import install_packages, Cleaner
 
 @typeguard.typechecked
 def parse_args() -> argparse.Namespace:
@@ -53,6 +53,10 @@ def parse_args() -> argparse.Namespace:
     parser_ex.add_argument('--files',   required = True, nargs = argparse.REMAINDER)
 
     parser_ex.set_defaults(func = extract.extract)
+
+    parser_clean = subparsers.add_parser('clean')
+
+    parser_clean.set_defaults(func = Cleaner.run)
 
     return parser.parse_args()
 
