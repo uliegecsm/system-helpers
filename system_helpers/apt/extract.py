@@ -24,7 +24,7 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 @typeguard.typechecked
-def candidate(*, package : str) -> str:
+def candidate(*, package : str, plus : bool) -> str:
     """
     Get candidate version for `package`.
     """
@@ -37,7 +37,7 @@ def candidate(*, package : str) -> str:
     except AttributeError:
         logging.exception(output)
         raise
-    return urllib.parse.quote_plus(version).lower()
+    return urllib.parse.quote_plus(version).lower() if plus else version
 
 @typeguard.typechecked
 def extract(*, package : str, files : typing.List[str], arch : str = 'amd64', clean : bool = True) -> None:
@@ -53,14 +53,24 @@ def extract(*, package : str, files : typing.List[str], arch : str = 'amd64', cl
         packages = [package],
     )
 
-    version = candidate(package = package)
+    version_plus = candidate(package = package, plus = True)
+    version_raw  = candidate(package = package, plus = False)
 
-    logging.info(f'Candidate version for {package} is {version}.')
+    logging.info(f'Candidate version for {package} is {version_plus} or {version_raw}.')
 
-    deb = pathlib.Path('/var/cache/apt/archives/') / f'{package}_{version}_{arch}.deb'
+    deb = None
 
-    if not deb.is_file():
+    for version in [version_plus, version_raw]:
+        test_deb = pathlib.Path('/var/cache/apt/archives/') / f'{package}_{version}_{arch}.deb'
+
+        if test_deb.is_file():
+            deb = test_deb
+            break
+
+    if not deb:
         raise FileNotFoundError(deb)
+
+    logging.info(f'The deb file is {deb}.')
 
     with tempfile.TemporaryDirectory() as tmpdir:
         # List files in the archive. We'll look for the data part.
