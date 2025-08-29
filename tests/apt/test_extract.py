@@ -20,6 +20,17 @@ ccache:
      4.8+really4.7.5-1 500
         500 http://deb.debian.org/debian bookworm/main amd64 Packages
 """
+
+    APT_POLICY_JQ = \
+"""
+jq:
+  Installed: (none)
+  Candidate: 1.7.1-6+deb13u1
+  Version table:
+     1.7.1-6+deb13u1 500
+        500 http://deb.debian.org/debian trixie/main amd64 Packages
+"""
+
     @staticmethod
     @typeguard.typechecked
     def get_script():
@@ -33,14 +44,23 @@ ccache:
         Ensure that :py:func:`system_helpers.apt.extract.candidate` works as expected.
         """
         with unittest.mock.patch(target = 'subprocess.check_output', side_effect = [self.APT_POLICY_CCACHE.encode()]) as mocker:
-            assert extract.candidate(package = 'ccache') == "4.8%2breally4.7.5-1"
+            assert extract.candidate(package = 'ccache', plus = True) == "4.8%2breally4.7.5-1"
 
             mocker.assert_has_calls(calls = [unittest.mock.call(['apt', 'policy', 'ccache'])])
+
+        with unittest.mock.patch(target = 'subprocess.check_output', side_effect = [self.APT_POLICY_JQ.encode()]) as mocker:
+            assert extract.candidate(package = 'jq', plus = False) == "1.7.1-6+deb13u1"
+
+            mocker.assert_has_calls(calls = [unittest.mock.call(['apt', 'policy', 'jq'])])
 
     def test_extract_single_file(self):
         """
         Try to extract and install a single file from the `jq` package.
         """
+        extract.extract(package = 'ccache', files = ['./usr/bin/ccache'])
+
+        assert pathlib.Path('/usr/bin/ccache').is_file()
+
         extract.extract(package = 'jq', files = ['./usr/bin/jq'])
 
         assert pathlib.Path('/usr/bin/jq').is_file()
@@ -52,7 +72,7 @@ ccache:
         extract.extract(package = 'jq', files = ['./usr/bin/jq', './usr/share/doc/jq'])
 
         assert pathlib.Path('/usr/bin/jq').is_file()
-        assert pathlib.Path('/usr/share/doc/jq/README').is_file()
+        assert pathlib.Path('/usr/share/doc/jq/README.md').is_file()
 
     @pytest.mark.script_launch_mode('inprocess')
     def test_install_packages_from_cli(self, script_runner : pytest_console_scripts.ScriptRunner):
