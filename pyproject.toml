@@ -9,6 +9,7 @@ name = "system-helpers"
 license = "MIT"
 license-files = ["LICENSE"]
 dynamic = [
+    "readme",
     "version",
 ]
 dependencies = [
@@ -42,4 +43,5 @@ packages = [
 
 [tool.setuptools.dynamic]
 # https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html#dynamic-metadata
+readme = {file = ["README.md"]}
 version = {attr = "system_helpers.__version__"}
