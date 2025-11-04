@@ -24,7 +24,7 @@ requires-python = ">= 3.10"
 
 [project.urls]
 Homepage = "https://github.com/uliegecsm/system-helpers"
-Documentation = "https://github.com/uliegecsm/system-helpers"
+Documentation = "https://uliegecsm.github.io/system-helpers/"
 
 [project.scripts]
 apt-helpers = "system_helpers.apt.script:main"
