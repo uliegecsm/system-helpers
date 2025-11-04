@@ -1,3 +1,6 @@
+[![PyPI - Version](https://img.shields.io/pypi/v/system-helpers?color=blue)](https://pypi.org/project/system-helpers/)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/uliegecsm/system-helpers/test.yml)
+
 # System helpers
 
 This repository contains useful standalone helper scripts for `Linux` systems.
