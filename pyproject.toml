@@ -6,10 +6,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "system-helpers"
+description = "Helper scripts for Linux systems."
 license = "MIT"
 license-files = ["LICENSE"]
+readme = {file = "README.md", content-type = "text/markdown"}
 dynamic = [
-    "readme",
     "version",
 ]
 dependencies = [
@@ -43,5 +44,4 @@ packages = [
 
 [tool.setuptools.dynamic]
 # https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html#dynamic-metadata
-readme = {file = ["README.md"]}
 version = {attr = "system_helpers.__version__"}
