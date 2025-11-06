@@ -7,6 +7,8 @@ on:
     pull_request:
         branches:
             - main
+    release:
+        types: [published]
 
 jobs:
 
@@ -97,12 +99,12 @@ jobs:
                   path: docs/build/html
 
     # Following instructions from
-    #https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/#publishing-the-distribution-to-pypi.
+    # https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/#publishing-the-distribution-to-pypi.
     publish-to-pypi:
         needs: [install-as-package-and-test, build-documentation, build-package-sdist]
         runs-on: [ubuntu-latest]
 
-        if: ${{ github.ref == 'refs/heads/main' }}
+        if: github.event_name == 'release' && github.event.action == 'published'
 
         environment:
             name: pypi
@@ -112,6 +114,7 @@ jobs:
             id-token: write
 
         steps:
+            - run: echo '${{ toJSON(github.event) }}'
             - uses: actions/download-artifact@v4
               with:
                   name: package-sdist
