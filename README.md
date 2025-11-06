@@ -1,5 +1,10 @@
-[![PyPI - Version](https://img.shields.io/pypi/v/system-helpers?color=blue)](https://pypi.org/project/system-helpers/)
+![GitHub Release](https://img.shields.io/github/v/release/uliegecsm/system-helpers)
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/uliegecsm/system-helpers/test.yml)
+![GitHub License](https://img.shields.io/github/license/uliegecsm/system-helpers)
+
+[![PyPI - Version](https://img.shields.io/pypi/v/system-helpers?color=blue)](https://pypi.org/project/system-helpers/)
+![PyPI - Wheel](https://img.shields.io/pypi/wheel/system-helpers)
+![PyPI - Implementation](https://img.shields.io/pypi/implementation/system-helpers)
 
 # System helpers
 
