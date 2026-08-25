@@ -28,7 +28,7 @@ class TestUpdateAlternatives:
             '--for-each-of',
             'gcc=gcc-10',
             'g++=g++-10',
-            'python=python-3.12',
+            'python=python-3.14',
         ], print_result = True)
 
         assert result.returncode == 0
@@ -38,6 +38,6 @@ class TestUpdateAlternatives:
             unittest.mock.call(['update-alternatives', '--display', 'gcc']),
             unittest.mock.call(['update-alternatives', '--install', pathlib.Path('/usr/bin/g++'), 'g++', pathlib.Path('/usr/bin/g++-10'), '10']),
             unittest.mock.call(['update-alternatives', '--display', 'g++']),
-            unittest.mock.call(['update-alternatives', '--install', pathlib.Path('/usr/bin/python'), 'python', pathlib.Path('/usr/bin/python-3.12'), '10']),
+            unittest.mock.call(['update-alternatives', '--install', pathlib.Path('/usr/bin/python'), 'python', pathlib.Path('/usr/bin/python-3.14'), '10']),
             unittest.mock.call(['update-alternatives', '--display', 'python']),
         ])
