@@ -1,4 +1,4 @@
-FROM python:3.12
+FROM python:3.14
 
 RUN --mount=target=/requirements,type=bind,source=requirements <<EOF
     set -ex
